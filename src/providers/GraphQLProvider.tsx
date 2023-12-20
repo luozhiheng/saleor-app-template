@@ -13,6 +13,6 @@ export function GraphQLProvider(props: PropsWithChildren<{}>) {
   }
 
   const client = createClient(url, async () => Promise.resolve({ token: appBridgeState?.token! }));
-
+  
   return <Provider value={client} {...props} />;
 }
