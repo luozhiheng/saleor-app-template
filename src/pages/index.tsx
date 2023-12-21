@@ -46,7 +46,7 @@ const IndexPage: NextPage = () => {
   const [tenants,setTenants]=useState<any[]>([]);
   
   const getTenantList=async ()=>{
-    const response = await fetch("http://api.sjglzx.com/customers/list-tenant", {
+    const response = await fetch("https://api.wzrefractory.com/customers/list-tenant", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ const IndexPage: NextPage = () => {
                 const userName = new FormData(event.currentTarget as HTMLFormElement).get("userName");
                 const domainName = new FormData(event.currentTarget as HTMLFormElement).get("domainName");
                 const data={"schemaName":schemaName,"userName":userName,"domainName":domainName}
-                const response = await fetch("http://api.sjglzx.com/customers/add-tenant", {
+                const response = await fetch("https://api.wzrefractory.com/customers/add-tenant", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
