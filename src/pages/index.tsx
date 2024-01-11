@@ -44,6 +44,7 @@ const IndexPage: NextPage = () => {
   }, []);
 
   const [tenants,setTenants]=useState<any[]>([]);
+  const [tip,setTip]=useState<any>();
   
   const getTenantList=async ()=>{
     const response = await fetch("https://api.wzrefractory.com/customers/list-tenant", {
@@ -121,7 +122,7 @@ const IndexPage: NextPage = () => {
           <Box as={"form"} display={"flex"} alignItems={"center"} gap={4}
               onSubmit={async (event) => {
                 event.preventDefault();
-
+                setTip("正在添加租户");
                 const schemaName = new FormData(event.currentTarget as HTMLFormElement).get("schemaName");
                 const userName = new FormData(event.currentTarget as HTMLFormElement).get("userName");
                 const domainName = new FormData(event.currentTarget as HTMLFormElement).get("domainName");
@@ -135,26 +136,36 @@ const IndexPage: NextPage = () => {
                 body:JSON.stringify(data)
               });
               if (response.status !== 200) {
-                alert(`Could not add the tenant list ${response.status}`);
+                console.log(`Could not add the tenant list ${response.status}`);
+                setTip(`Could not add the tenant list ${response.status}`);
                 return void 0;
               }
               const body = await response.json();
               if(body.code == '1'){
                 if(body.message.indexOf("finish") > -1){
-                  alert("finish")
+                  console.log("finish")
+                  setTip("finish")
                 }else{
-                  alert("please wait,"+body.message)
+                  console.log("please wait,"+body.message)
+                  setTip("please wait,"+body.message)
                 }
                 getTenantList()
               }else{
-                alert(body.message)
+                console.log(body.message)
+                setTip(body.message)
               }
+              setTimeout(function(){
+                setTip("");
+              },3000)
               }}
             >
             <Input type="text" required label="scheam name" name="schemaName" />
             <Input type="text" required label="nick name" name="userName" />
             <Input type="text" required label="domain" name="domainName" />
             <Button type="submit">Add Tenant</Button>
+            <Text>
+              { tip }
+            </Text>
           </Box>
         </div>
 
